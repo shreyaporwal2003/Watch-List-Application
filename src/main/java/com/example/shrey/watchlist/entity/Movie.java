@@ -4,26 +4,21 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Movie {
-
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
 	
-	@NotBlank(message = "Please enter the title")
+    
+	@NotBlank(message="Please enter the title")
 	private String title;
-	
-	@Rating
 	private float rating;
-	
-	@Priority
 	private String priority;
-	
-	@Size(max = 50, message = "Comment should be maximum 50 characters")
 	private String comment;
-	
 	public Integer getId() {
 		return id;
 	}
@@ -36,6 +31,8 @@ public class Movie {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	
+	
 	public float getRating() {
 		return rating;
 	}

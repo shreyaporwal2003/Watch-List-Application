@@ -5,15 +5,20 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.example.shrey.watchlist.entity.Movie;
 import com.example.shrey.watchlist.service.DatabaseService;
 
+import jakarta.validation.Valid;
+
+@RestController
 public class MovieController {
 	
 	@Autowired
@@ -34,7 +39,11 @@ public class MovieController {
 	}
 	
 	@PostMapping("/watchlistItemForm")
-	public ModelAndView submitWatchlistForm(Movie movie) {
+	public ModelAndView submitWatchlistForm(@Valid Movie movie, BindingResult bindingResult) {
+		if(bindingResult.hasErrors()) {
+			//if errors are there, redisplay the form and let user enter again
+			return new  ModelAndView("watchlistItemForm");
+		}
 		
 		Integer id= movie.getId();
 		if(id==null) {
