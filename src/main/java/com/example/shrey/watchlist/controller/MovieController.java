@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,7 +40,7 @@ public class MovieController {
 	}
 	
 	@PostMapping("/watchlistItemForm")
-	public ModelAndView submitWatchlistForm(@Valid Movie movie, BindingResult bindingResult) {
+	public ModelAndView submitWatchlistForm(@Valid @ModelAttribute("watchlistItem") Movie movie, BindingResult bindingResult) {
 		if(bindingResult.hasErrors()) {
 			//if errors are there, redisplay the form and let user enter again
 			return new  ModelAndView("watchlistItemForm");

@@ -1,10 +1,14 @@
 package com.example.shrey.watchlist.entity;
 
+import com.example.shrey.watchlist.entity.validation.Priority;
+import com.example.shrey.watchlist.entity.validation.Rating;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Movie {
@@ -16,8 +20,13 @@ public class Movie {
     
 	@NotBlank(message="Please enter the title")
 	private String title;
+	
+	@Rating(message="Enter rating Between 5 and 10")
 	private float rating;
+	@Priority
 	private String priority;
+	
+	@Size(max=50, message="Comment should be maximum 50 characters")
 	private String comment;
 	public Integer getId() {
 		return id;
