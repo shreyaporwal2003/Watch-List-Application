@@ -47,4 +47,8 @@ public class DatabaseService {
 		
 		movieRepo.save(toBeUpdated);
 	}
+	
+	public void delete(Integer id) {
+		movieRepo.deleteById(id);
+	}
 }

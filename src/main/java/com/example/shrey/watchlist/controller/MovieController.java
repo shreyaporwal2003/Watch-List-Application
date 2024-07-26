@@ -24,6 +24,12 @@ public class MovieController {
 	
 	@Autowired
 	DatabaseService databaseService;
+	@GetMapping("/")
+	public ModelAndView showHomePage() {
+		String viewName="index";
+		Map<String,Object> model=new HashMap<>();
+		return new ModelAndView(viewName,model);
+	}
 	@GetMapping("/watchlistItemForm")
 	public ModelAndView showWatchListForm(@RequestParam(required=false) Integer id) {
 		System.out.println(id);
@@ -71,5 +77,12 @@ public class MovieController {
 		return new ModelAndView(viewName,model);
 	}
 	
+	@GetMapping("/deleteItem")
+	public RedirectView deleteMovie(@RequestParam Integer id) {
+		databaseService.delete(id);
+		RedirectView redirectView=new RedirectView();
+		redirectView.setUrl("/watchlist");
+		return redirectView;
+	}
 
 }
