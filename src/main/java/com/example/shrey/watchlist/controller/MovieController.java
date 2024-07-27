@@ -53,12 +53,18 @@ public class MovieController {
 		}
 		
 		Integer id= movie.getId();
-		if(id==null) {
-			databaseService.create(movie);
-		}else {
-			databaseService.update(movie,id);
+		try {
+            if (id == null) {
+                databaseService.create(movie);
+            } else {
+                databaseService.update(movie, id);
+            }
+        } catch (Exception e) {
+            ModelAndView mav = new ModelAndView("watchlistItemForm");
+            mav.addObject("errorMessage", e.getMessage());
+            return mav;
+        }
 			
-		}
 		
 		
 		RedirectView  rd=new RedirectView();

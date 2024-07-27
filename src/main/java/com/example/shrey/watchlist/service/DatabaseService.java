@@ -1,6 +1,7 @@
 package com.example.shrey.watchlist.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,15 +11,26 @@ import com.example.shrey.watchlist.repository.MovieRepository;
 
 @Service
 public class DatabaseService {
+	
 
 	@Autowired
 	MovieRepository movieRepo;
 	
+	
+	
 	@Autowired
 	RatingService ratingService;
 	
-	public void create(Movie movie) {
+	public boolean movieExists(String title) {
+		Optional<Movie> movie = movieRepo.findByTitle(title);
+		return movie.isPresent();
+	}
+	
+	public void create(Movie movie) throws Exception {
 		// TODO Auto-generated method stub
+		if(movieExists(movie.getTitle())) {
+			throw new Exception("Movie with title '" + movie.getTitle() + "' already exists.");
+		}
 		
 		String rating = ratingService.getMovieRating(movie.getTitle());
 		if(rating != null) {
@@ -51,4 +63,10 @@ public class DatabaseService {
 	public void delete(Integer id) {
 		movieRepo.deleteById(id);
 	}
+	
+	
+	
+	
+	
+	
 }
