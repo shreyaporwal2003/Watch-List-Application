@@ -42,7 +42,7 @@ public class DatabaseService {
 	public List<Movie> getAllMovies() {
 		// TODO Auto-generated method stub
 
-		return movieRepo.findAll();
+		return movieRepo.findAllByOrderByRatingDesc();
 	}
 	
 	public Movie getMovieById(Integer id) {
