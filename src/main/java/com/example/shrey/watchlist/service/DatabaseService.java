@@ -63,10 +63,20 @@ public class DatabaseService {
 	public void delete(Integer id) {
 		movieRepo.deleteById(id);
 	}
-	
-	
-	
-	
-	
-	
+	public void saveMovie(Movie movie) {
+		movieRepo.save(movie); // Persist changes to the database
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

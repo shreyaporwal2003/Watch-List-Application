@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.http.ResponseEntity;
+
 
 import com.example.shrey.watchlist.entity.Movie;
 import com.example.shrey.watchlist.service.DatabaseService;
@@ -90,5 +93,26 @@ public class MovieController {
 		redirectView.setUrl("/watchlist");
 		return redirectView;
 	}
+	@PostMapping("/updateWatchStatus")
+	public ResponseEntity<String> updateWatchStatus(@RequestParam Integer id, @RequestParam String status) {
+		try {
+			Movie movie = databaseService.getMovieById(id);
+			if (movie != null) {
+				movie.setStatus(status); // Update the status
+				databaseService.saveMovie(movie); // Save changes to the database
+				return ResponseEntity.ok("Watch status updated successfully");
+			}
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Movie not found");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating watch status");
+		}
+	}
+
+
+
+
+
+
+
 
 }
