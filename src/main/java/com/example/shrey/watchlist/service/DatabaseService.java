@@ -11,40 +11,40 @@ import com.example.shrey.watchlist.repository.MovieRepository;
 
 @Service
 public class DatabaseService {
-	
+
 
 	@Autowired
 	MovieRepository movieRepo;
-	
-	
-	
+
+
+
 	@Autowired
 	RatingService ratingService;
-	
+
 	public boolean movieExists(String title) {
 		Optional<Movie> movie = movieRepo.findByTitle(title);
 		return movie.isPresent();
 	}
-	
+
 	public void create(Movie movie) throws Exception {
 		// TODO Auto-generated method stub
 		if(movieExists(movie.getTitle())) {
 			throw new Exception("Movie with title '" + movie.getTitle() + "' already exists.");
 		}
-		
+
 		String rating = ratingService.getMovieRating(movie.getTitle());
 		if(rating != null) {
 			movie.setRating(Float.parseFloat(rating));
 		}
 		movieRepo.save(movie);
 	}
-	
+
 	public List<Movie> getAllMovies() {
 		// TODO Auto-generated method stub
 
 		return movieRepo.findAllByOrderByRatingDesc();
 	}
-	
+
 	public Movie getMovieById(Integer id) {
 		return movieRepo.findById(id).get();
 	}
@@ -56,10 +56,10 @@ public class DatabaseService {
 		toBeUpdated.setRating(movie.getRating());
 		toBeUpdated.setComment(movie.getComment());
 		toBeUpdated.setPriority(movie.getPriority());
-		
+
 		movieRepo.save(toBeUpdated);
 	}
-	
+
 	public void delete(Integer id) {
 		movieRepo.deleteById(id);
 	}
